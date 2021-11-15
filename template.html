@@ -10,6 +10,7 @@
     body {
       margin: 0;
       font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+      font-size: 18px;
     }
     pre {
       background: #1b2b34;
@@ -23,13 +24,56 @@
       border-radius: 2px;
     }
     .container {
-      max-width: 800px;
+      max-width: 840px;
       margin: 0 auto;
     }
     iframe {
+      box-sizing: border-box;
       border: 1px solid #f4f4f4;
       width: 100%;
       height: 200px;
+    }
+    .react-app-embed {
+      display: flex;
+    }
+    .react-app-embed > .left {
+      width: 60%;
+    }
+    .react-app-embed > .right {
+      width: 40%;
+    }
+    .file-tabs {
+      background: #fff;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .file-tabs span {
+      display: inline-block;
+      box-sizing: content-box;
+      border-left: 1px solid #f0f0f0;
+      border-top: 1px solid #f0f0f0;
+      border-right: 1px solid #f0f0f0;
+      background: #f4f4f4;
+      padding: 4px 5px 3px 5px;
+      margin: 0 3px;
+    }
+    .address-bar {
+      padding: 3px 5px;
+      background: #eee;
+    }
+    .address-bar code {
+      display: inline-block;
+      color: #555;
+      padding: 2px 8px;
+      border-radius: 1em;
+      background: #fff;
+      font-size: 13px;
+    }
+    .file-contents pre {
+      margin: 0;
+      padding: .25em;
+    }
+    code[class="language-js"] {
+      font-size: 13px !important;
     }
   </style>
 </head>

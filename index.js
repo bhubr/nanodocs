@@ -4,6 +4,7 @@ const mkdirp = require('mkdirp');
 const { join } = require('path');
 const marked = require('marked');
 const Prism = require('prismjs');
+require('dotenv').config();
 require('prismjs/components/prism-jsx.js');
 
 /**
@@ -55,6 +56,8 @@ marked.setOptions({
 
 const shortcodeRenderer = {
   app(pk, pv) {
+    const inputFilesDir = join(__dirname, 'example', pv);
+    const inputFiles = fs.readdirSync(inputFilesDir);
     const outputDir = join(__dirname, 'output', 'examples', pv);
     const output = reactTemplate.replace(/\{\{dir\}\}/g, pv);
     const dirExists = fs.existsSync(outputDir);
@@ -64,7 +67,26 @@ const shortcodeRenderer = {
     }
     const outputFile = join(outputDir, 'index.html');
     fs.writeFileSync(outputFile, output);
-    return `<iframe src="examples/${pv}"></iframe>`;
+
+    const { EXAMPLES_ROOT_URL: examplesUrl } = process.env;
+    return `<div class="react-app-embed" id="${pv}">
+      <div class="left">
+        <div class="file-tabs">
+          ${inputFiles.filter(f => /\.jsx?$/.test(f)).map(f => `<span data-file-id="${pv}-${f.replace(/\./g, '-')}">${f}</span>`).join('')}
+        </div>
+        <div class="file-contents">
+          ${inputFiles
+            .filter(f => /\.jsx?$/.test(f))
+            .map(f => `<pre id="${pv}-${f.replace(/\./g, '-')}"><code class="language-js">${Prism.highlight(fs.readFileSync(join(inputFilesDir, f), 'utf-8'), Prism.languages.jsx, 'jsx')}</code></pre>`).join('')}
+        </div>
+      </div>
+      <div class="right">
+        <div class="address-bar">
+          <code>${examplesUrl}/${pv}</code>
+        </div>
+        <iframe src="${examplesUrl}/${pv}"></iframe>
+      </div>
+    </div>`;
   }
 }
 
