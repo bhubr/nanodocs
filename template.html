@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="css/oceanic-next.css">
+  <link rel="stylesheet" href="css/switch.css">
+  <link rel="stylesheet" href="css/website.css">
   <style>
     body {
       margin: 0;
@@ -15,13 +17,32 @@
     pre {
       background: #1b2b34;
     }
-    p code,
+    /* p code,
     li code,
     blockquote code {
       background: #eee;
       color: #722;
       padding: 1px 3px;
       border-radius: 2px;
+    } */
+    .flex {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    aside {
+      font: 1em Roboto;
+      background: #f6f6f6;
+      color: #555;
+      border-right: 1px solid #eee;
+      height: 100vh;
+      padding: .5em 0 .5em .5em;
+      overflow-y: scroll;
+    }
+    #content {
+      width: 100%;
+      overflow-y: scroll;
+      margin: 1em;
     }
     .container {
       max-width: 840px;
@@ -78,8 +99,43 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    {{body}}
+  <header>
+    <nav id="navbar">
+      <a href="/">Accueil</a>
+
+      <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+          <input type="checkbox" id="checkbox" />
+          <div class="slider round"></div>
+        </label>
+        <em>Dark mode</em>
+      </div>
+
+    </nav>
+  </header>
+
+  <div class="flex">
+    <aside>
+      <div id="toc">
+        {{#each toc}}
+        <div class="toc">
+          <h{{depth}}>{{title}}</h{{depth}}>
+          <ul>
+            {{#each links}}
+            <li><a href="{{absPath}}">{{title}}</a></li>
+            {{/each}}
+          </ul>
+        </div>
+        {{/each}}
+    </aside>
+
+    <main id="content">
+      <div id="content-inner" class="markdown-body">
+        {{{ body }}}
+      </div>
+    </main>
   </div>
+
+  <script src="js/switch.js"></script>
 </body>
 </html>

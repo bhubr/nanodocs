@@ -1,0 +1,91 @@
+:root {
+  --bg-color: #fff;
+  --font-color: #333;
+  --nav-bg-color: #eee;
+  --nav-fg-color: #555;
+}
+
+[data-theme="dark"] {
+  --bg-color: #1a1a25;
+  --font-color: #b2bfc7;
+  --nav-bg-color: #2d333b;
+  --aside-bg-color: #282d35;
+  --nav-fg-color: #bbb;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  font-family: Roboto;
+}
+
+header {
+  padding: 1em;
+  background: var(--nav-bg-color);
+  color: var(--nav-fg-color);
+}
+
+header a {
+  color: var(--nav-fg-color);
+  text-decoration: none;
+}
+
+header a:hover {
+  text-decoration: underline;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 660px;
+  margin: 0 auto;
+}
+
+aside {
+  width: 15em;
+}
+
+main {
+  margin-top: 2em;
+}
+
+.markdown-body {
+  color: var(--font-color);
+}
+
+[data-theme="dark"] .markdown-body h1,
+[data-theme="dark"] .markdown-body h2 {
+  border-bottom: 1px solid #374e47;
+}
+
+[data-theme="dark"] .markdown-body a {
+  color: #6290cb;
+}
+
+[data-theme="dark"] .markdown-body blockquote {
+  border-left: 0.25em solid #555;
+  color: #a1a1af;
+}
+
+[data-theme="dark"] aside {
+  background: var(--aside-bg-color);
+  color: var(--font-color);
+  border-right: 1px solid #444;
+}
+
+[data-theme="dark"] aside a {
+  background: var(--aside-bg-color);
+  color: #aaa;
+}
+
+[data-theme="dark"] #content p code, 
+[data-theme="dark"] #content li code, 
+[data-theme="dark"] #content blockquote code {
+  background: var(--aside-bg-color);
+  color: #af3a3a;
+}
+
+[data-theme="dark"] #content pre {
+  background: var(--aside-bg-color);
+}

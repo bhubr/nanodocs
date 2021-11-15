@@ -4,6 +4,7 @@ const mkdirp = require('mkdirp');
 const { join } = require('path');
 const marked = require('marked');
 const Prism = require('prismjs');
+const Handlebars = require('handlebars');
 require('dotenv').config();
 require('prismjs/components/prism-jsx.js');
 
@@ -35,6 +36,7 @@ async function readText(filename, dir = '') {
 
 /**
  * Highlight code with Prism
+ *
  * @param {string} code Code to highlight
  * @param {*} lang Language code (js, jsx, etc.)
  * @returns 
@@ -47,8 +49,24 @@ function highlight(code, lang) {
   }
 }
 
+/**
+ * Split markdown (extract TOC)
+ *
+ * @param {string} md Markdown source
+ */
+function extractMdToc(md) {
+  const split = md.split(/^## /gm);
+  const first = split.shift();
+  const [, title] = first.match(/^# (.*)/, first);
+  return split.map( s => ({
+    title: s.split('\n').shift(),
+    depth: 2,
+  }) );
+}
+
 const reactTemplate = readTextSync('react-template.html');
 const docTemplate = readTextSync('template.html');
+const compiledDocTemplate = Handlebars.compile(docTemplate);
 
 marked.setOptions({
   highlight,
@@ -61,7 +79,6 @@ const shortcodeRenderer = {
     const outputDir = join(__dirname, 'output', 'examples', pv);
     const output = reactTemplate.replace(/\{\{dir\}\}/g, pv);
     const dirExists = fs.existsSync(outputDir);
-    console.log('exists?', outputDir, dirExists);
     if (!dirExists) {
       mkdirp.sync(outputDir);
     }
@@ -95,9 +112,7 @@ const markedRenderer = {
     const m = text.match(/\[([a-z]+)( ([a-z]+)=("?[^"]+"?))*\]/)
     if (!m) return `<p>${text}</p>`;
     const [, shortcode,,pk, pv] = m;
-    console.log('shortcode', shortcode, pk, pv)
     return shortcodeRenderer[shortcode](pk, pv);
-    // return `<div data-sc-type="${shortcode}" data-sc-param-key="${pk}" data-sc-param-val="${pv}" id="${shortcode}-${pk}-${pv}"></div>`
   }
 };
 
@@ -106,8 +121,9 @@ marked.use({ renderer: markedRenderer });
 (async () => {
   try {
     const md = await readText('README.md', 'content');
+    const toc = extractMdToc(md);
     const body = marked.parse(md);
-    const output = docTemplate.replace('{{body}}', body);
+    const output = compiledDocTemplate({ body, toc });
     await fsp.writeFile('output/index.html', output);
   } catch (err) {
     console.error(err);
