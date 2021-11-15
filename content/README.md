@@ -15,13 +15,19 @@ Supports **Authorization Code** and **Implicit Grant** flows.
 
 > danger:warning: As stated in [oauth.net](https://oauth.net/2/)'s [OAuth 2.0 Implicit Grant](https://oauth.net/2/grant-types/implicit/), _the [OAuth 2.0 Security Best Current Practice](https://tools.ietf.org/html/draft-ietf-oauth-security-topics) document recommends against using the Implicit flow entirely_.
 
-The component displays as a simple button. Clicking it will open the authorization screen for your chosen provider, in a popup (thus avoiding losing your app's state).
+Despite the above warning, the _Implicit Grant_ flow is still supported.
 
-[app name=basic]
+The example below showcases the simplest way to use the module:
 
-**Four props** are mandatory: `authorizationUrl`, `responseType`, `clientId`, `redirectUri`.
+* No backend application is needed
+* When called, the `onSuccess` callback receives an object which contains the access token.
+
+**Four mandatory props** are used to build the URL of the consent screen: `authorizationUrl`, `responseType`, `clientId`, and `redirectUri`. An optional `scope` prop can be passed.
 
 The client ID is given by the OAuth2 provider (usually along with a client secret) when you set up an OAuth2 app (where you're asked to fill in the Redirect URI).
+
+[app name=implicit-grant]
+
 
 ```js
 import React from 'react';
@@ -106,15 +112,15 @@ domain to your frontend, you will need to do the following:
 
 Your server needs to populate the `result` key with an object to deliver back to the frontend.
 
-### Props
+## Props
 
-#### `authorizationUrl`
+### `authorizationUrl`
 
 `{string}` _required_
 
 Base URL of the provider's authorization screen.
 
-#### `responseType`
+### `responseType`
 
 `{string}` _required_
 
@@ -123,81 +129,81 @@ Determines the type of OAuth2 flow. Two possible values:
 * `code`: Authorization Code flow. You need a server-side app to use this.
 * `token`: Implicit Grant flow.
 
-#### `clientId`
+### `clientId`
 
 `{string}` _required_
 
 Client ID for OAuth application.
 
-#### `redirectUri`
+### `redirectUri`
 
 `{string}` _required_
 
 Registered redirect URI for OAuth application.
 
-#### `scope`
+### `scope`
 
 `{string}`
 
 Scope for OAuth application. Example: `user:email` (GitHub).
 
-#### `popupWidth`
+### `popupWidth`
 
 `{number}`
 
 Width for the popup window upon clicking the button in px. Default: `680`.
 
-#### `popupHeight`
+### `popupHeight`
 
 `{number}`
 
 Height for the popup window upon clicking the button in px. Default: `680`.
 
-#### `className`
+### `className`
 
 `{string}`
 
 CSS class for the login button.
 
-#### `buttonText`
+### `buttonText`
 
 `{string}`
 
 Text content for the login button.
 
-#### `isCrossOrigin`
+### `isCrossOrigin`
 
 `{bool}`
 
 Is this a cross-origin request? If you are implementing an Authorization Code workflow and your
 server backend is on a different URL, you'll need to set this to true.
 
-#### `extraParams`
+### `extraParams`
 
 `{object}`
 
 This allows you to pass extra query parameters to the OAuth2 login screen. Some providers allow additional parameters. See [issue #39 on the repo](https://github.com/bhubr/react-simple-oauth2-login/issues/39) for more details. If you want to add `prompt=consent` to the query string, you need to pass `extraParams={{ prompt: 'consent' }}` as a prop.
 
-#### `render`
+### `render`
 
 `{function}`
 
 A custom rendering function. An object containing properties for rendering will be passed in as an
 argument, e.g. `{buttonText: "...", children: [...], className: "...", onClick: func}`.
 
-#### `onRequest`
+### `onRequest`
 
 `{function}`
 
 Callback for every request.
 
-#### `onSuccess`
+### `onSuccess`
 
 `{function}`
 
 Callback for successful login. An object will be passed as an argument to the callback, e.g. `{ "code": "..." }`.
 
-#### `onFailure`
+### `onFailure`
 
 `{function}`
 
