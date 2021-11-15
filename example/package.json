@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "parcel build basic/index.jsx --out-dir ../output/examples/basic/build"
+    "build": "parcel build implicit-grant/index.jsx --out-dir ../output/examples/implicit-grant/build"
   },
   "dependencies": {
     "prop-types": "^15.7.2",

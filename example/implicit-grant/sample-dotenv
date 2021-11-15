@@ -1,0 +1,10 @@
+# Copy this file as .env
+# Modify the values according to your setup
+
+# Redirect URI: in the Implicit Grant flow,
+# this should be your React app's URL
+REACT_APP_REDIRECT_URI=http://localhost:3000
+
+# Client ID: you should have obtained this by creating
+# an OAuth2 app in your OAuth2 provider's settings
+REACT_APP_CLIENT_ID=ef5ec12b36434edda99b7972f2c96c26

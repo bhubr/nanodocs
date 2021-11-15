@@ -3,10 +3,8 @@ import ReactDOM from 'react-dom';
 import OAuth2Login from 'react-simple-oauth2-login';
 
 const authUrl = 'https://accounts.spotify.com/authorize';
-const {
-  REACT_APP_REDIRECT_URI: redirectUri,
-  REACT_APP_CLIENT_ID: clientId
-} = process.env;
+const redirectUri = process.env.REACT_APP_REDIRECT_URI;
+const clientId = process.env.REACT_APP_CLIENT_ID;
 
 const ImplicitGrant = () => {
   const [token, setToken] = useState(null);
