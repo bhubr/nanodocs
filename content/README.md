@@ -3,28 +3,19 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-> :trophy: **Credits**: this component is based on [React GitHub Login](https://github.com/checkr/react-github-login) by [Checkr](https://checkr.com/).
+> info:trophy: **Credits**: this component is based on [React GitHub Login](https://github.com/checkr/react-github-login) by [Checkr](https://checkr.com/).
 
 Simple React component for OAuth2 login.
 
 Supports **Authorization Code** and **Implicit Grant** flows.
 
-## RTFM
+## Examples
 
-* [Usage](#usage)
+### Implicit Grant
 
-    * [Basic example](#basic-example)
-    * [Example app](#example-app)
-    * [Props](#props)
-* [ChangeLog](#changelog)
-
-## Usage
-
-### Basic example
+> danger:warning: As stated in [oauth.net](https://oauth.net/2/)'s [OAuth 2.0 Implicit Grant](https://oauth.net/2/grant-types/implicit/), _the [OAuth 2.0 Security Best Current Practice](https://tools.ietf.org/html/draft-ietf-oauth-security-topics) document recommends against using the Implicit flow entirely_.
 
 The component displays as a simple button. Clicking it will open the authorization screen for your chosen provider, in a popup (thus avoiding losing your app's state).
-
-xxx
 
 [app name=basic]
 
@@ -51,6 +42,8 @@ ReactDOM.render(
   document.getElementById('root')
 );
 ```
+
+### Authorization Code
 
 ### Example app
 

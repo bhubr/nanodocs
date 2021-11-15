@@ -7,6 +7,7 @@ const Prism = require('prismjs');
 const Handlebars = require('handlebars');
 require('dotenv').config();
 require('prismjs/components/prism-jsx.js');
+const emojis = require('./emojis.json');
 
 /**
  * Synchronously read text file
@@ -113,6 +114,17 @@ const markedRenderer = {
     if (!m) return `<p>${text}</p>`;
     const [, shortcode,,pk, pv] = m;
     return shortcodeRenderer[shortcode](pk, pv);
+  },
+  blockquote(text) {
+    const matchSpecial = text.match(/(info|danger)(:[a-z]+:)/);
+    if (!matchSpecial) {
+      return `<blockquote>${text}</blockquote>`;
+    }
+    const mText = text.replace(/(info|danger)(:[a-z]+:)/, (args) => {
+      const [, emoji] = args.split(':');
+      return emojis[emoji];
+    });
+    return `<blockquote class="blockquote-${matchSpecial[1]}">${mText}</blockquote>`;
   }
 };
 
