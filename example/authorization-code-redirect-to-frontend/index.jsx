@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import OAuth2Login from 'react-simple-oauth2-login';
@@ -8,14 +8,36 @@ const redirectUri = process.env.REACT_APP_REDIRECT_URI;
 const clientId = process.env.REACT_APP_CLIENT_ID;
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-const postCodeToServer = (code) => axios.post(`${serverUrl}/oauth/token`,
+const githubApiUrl = 'https://api.github.com';
+
+const postCodeToServer = (code) => axios.post(
+  `${serverUrl}/oauth/token`,
     { code },
 )
-  .then(res => res.data)
+  .then(res => res.data);
+
+const getConnectedUser = (accessToken) => axios.get(
+  `${githubApiUrl}/user`,
+  {
+    headers: {
+      authorization: `Bearer ${accessToken}`
+    }
+  }
+)
+  .then(res => res.data);
 
 const AuthorizationCodeRedirToFront = () => {
   const [token, setToken] = useState(null);
   const [error, setError] = useState(null);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    if (token) {
+      getConnectedUser(token)
+        .then(setUser)
+        .catch(setError);
+    }
+  }, [token]);
   
   const onSuccess = ({ code }) => postCodeToServer(code)
     .then(({ access_token: at }) => setToken(at))
@@ -29,16 +51,29 @@ const AuthorizationCodeRedirToFront = () => {
       border: '2px solid red'
     }}>{error.message}</p>
   }
+  if (!token) {
+    return (
+      <OAuth2Login
+        responseType="code"
+        authorizationUrl={authUrl}
+        redirectUri={redirectUri}
+        clientId={clientId}
+        onSuccess={onSuccess}
+      />
+    );
+  }
   return (
-    token
-    ? <p>Access token: {token}</p>
-    : <OAuth2Login
-      responseType="code"
-      authorizationUrl={authUrl}
-      redirectUri={redirectUri}
-      clientId={clientId}
-      onSuccess={onSuccess}
-    />
+    <div>
+      <p>Access token: {token}</p>
+      {
+        user && (
+          <div>
+            <p>login: <strong>{user.login}</strong></p>
+            <img src={user.avatar_url} alt={`${user.login}'s avatar`} />
+          </div>
+        )
+      }
+    </div>
   );
 }
 
