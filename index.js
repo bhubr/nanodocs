@@ -51,6 +51,24 @@ function highlight(code, lang) {
 }
 
 /**
+ * Extract subsections from md section
+ *
+ * @param {string} section Markdown section 
+ */
+function extractMdSubsections(section) {
+  const split = section.split(/^### /gm);
+  split.shift();
+  return split.map(subsection => {
+    const lines = subsection.split('\n');
+    const title = lines.shift();
+    return {
+      title,
+      depth: 3,
+    };
+  });
+}
+
+/**
  * Split markdown (extract TOC)
  *
  * @param {string} md Markdown source
@@ -59,10 +77,16 @@ function extractMdToc(md) {
   const split = md.split(/^## /gm);
   const first = split.shift();
   const [, title] = first.match(/^# (.*)/, first);
-  return split.map( s => ({
-    title: s.split('\n').shift(),
-    depth: 2,
-  }) );
+  return split.map(section => {
+    const lines = section.split('\n');
+    const title = lines.shift();
+    console.log('section', lines.join('\n').trim())
+    return {
+      title,
+      subsections: extractMdSubsections(lines.join('\n').trim()),
+      depth: 2,
+    };
+  });
 }
 
 const reactTemplate = readTextSync('react-template.html');
@@ -77,7 +101,7 @@ const shortcodeRenderer = {
   app(pk, pv) {
     const inputFilesDir = join(__dirname, 'example', pv);
     const inputFiles = fs.readdirSync(inputFilesDir);
-    const outputDir = join(__dirname, 'output', 'examples', pv);
+    const outputDir = join(__dirname, 'output', 'demos', pv);
     const output = reactTemplate.replace(/\{\{dir\}\}/g, pv);
     const dirExists = fs.existsSync(outputDir);
     if (!dirExists) {
@@ -134,6 +158,7 @@ marked.use({ renderer: markedRenderer });
   try {
     const md = await readText('README.md', 'content');
     const toc = extractMdToc(md);
+    console.log(toc);
     const body = marked.parse(md);
     const output = compiledDocTemplate({ body, toc });
     await fsp.writeFile('output/index.html', output);
