@@ -1,0 +1,14 @@
+# Copy this file as .env
+# Modify the values according to your setup
+
+# Redirect URI: in the Authorization Code flow,
+# this could be your React app or server-side app
+# In this example, it is the React app
+REACT_APP_REDIRECT_URI=http://localhost:3000
+
+# Client ID: you should have obtained this by creating
+# an OAuth2 app in your OAuth2 provider's settings
+REACT_APP_CLIENT_ID=
+
+# Server app URL
+REACT_APP_SERVER_URL=http://localhost:8000
