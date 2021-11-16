@@ -1,0 +1,20 @@
+<div class="react-app-embed" id="{{demoPath}}">
+  <div class="left">
+    <div class="file-tabs">
+      {{#each files}}
+      <span data-file-id="{{demoPath}}-{{slug}}">{{name}}</span>
+      {{/each}}
+    </div>
+    <div class="file-contents">
+      {{#each files}}
+      <pre id="{{demoPath}}-{{slug}}"><code class="language-js">{{{code}}}</code></pre>
+      {{/each}}
+    </div>
+  </div>
+  <div class="right">
+    <div class="address-bar">
+      <code>{{examplesUrl}}/{{demoPath}}</code>
+    </div>
+    <iframe src="{{examplesUrl}}/{{demoPath}}"></iframe>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+[
+  {
+    "path": "implicit-grant",
+    "files": [
+      {
+        "name": "index.jsx"
+      }
+    ]
+  },
+  {
+    "path": "authorization-code-redirect-to-frontend",
+    "files": [
+      {
+        "name": "index.jsx"
+      },
+      {
+        "name": "server/app.js"
+      }
+    ]
+  }
+]

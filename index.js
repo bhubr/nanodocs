@@ -8,6 +8,7 @@ const Handlebars = require('handlebars');
 require('dotenv').config();
 require('prismjs/components/prism-jsx.js');
 const emojis = require('./emojis.json');
+const demos = require('./content/demos.json');
 
 /**
  * Synchronously read text file
@@ -90,6 +91,8 @@ function extractMdToc(md) {
 }
 
 const reactTemplate = readTextSync('react-template.html');
+const demoTemplate = readTextSync('demo-template.html');
+const compiledDemoTemplate = Handlebars.compile(demoTemplate);
 const docTemplate = readTextSync('template.html');
 const compiledDocTemplate = Handlebars.compile(docTemplate);
 
@@ -97,10 +100,24 @@ marked.setOptions({
   highlight,
 });
 
+const slugify = str => str.replace(/\./g, '-');
+
 const shortcodeRenderer = {
   app(pk, pv) {
     const inputFilesDir = join(__dirname, 'example', pv);
-    const inputFiles = fs.readdirSync(inputFilesDir);
+    const demo = demos.find(d => d.path === pv);
+    if (!demo) {
+      throw new Error(`Could not find demo with path: ${pv}`);
+    }
+    const files = demo.files.map(f => {
+      const ext = f.name.split('.').pop()
+      const content = fs.readFileSync(join(inputFilesDir, f.name), 'utf-8');
+      return {
+        ...f,
+        slug: slugify(f.name),
+        code: Prism.highlight(content, Prism.languages[ext], ext),
+      }
+    });
     const outputDir = join(__dirname, 'output', 'demos', pv);
     const output = reactTemplate.replace(/\{\{dir\}\}/g, pv);
     const dirExists = fs.existsSync(outputDir);
@@ -111,24 +128,11 @@ const shortcodeRenderer = {
     fs.writeFileSync(outputFile, output);
 
     const { EXAMPLES_ROOT_URL: examplesUrl } = process.env;
-    return `<div class="react-app-embed" id="${pv}">
-      <div class="left">
-        <div class="file-tabs">
-          ${inputFiles.filter(f => /\.jsx?$/.test(f)).map(f => `<span data-file-id="${pv}-${f.replace(/\./g, '-')}">${f}</span>`).join('')}
-        </div>
-        <div class="file-contents">
-          ${inputFiles
-            .filter(f => /\.jsx?$/.test(f))
-            .map(f => `<pre id="${pv}-${f.replace(/\./g, '-')}"><code class="language-js">${Prism.highlight(fs.readFileSync(join(inputFilesDir, f), 'utf-8'), Prism.languages.jsx, 'jsx')}</code></pre>`).join('')}
-        </div>
-      </div>
-      <div class="right">
-        <div class="address-bar">
-          <code>${examplesUrl}/${pv}</code>
-        </div>
-        <iframe src="${examplesUrl}/${pv}"></iframe>
-      </div>
-    </div>`;
+    return compiledDemoTemplate({
+      demoPath: pv,
+      examplesUrl,
+      files
+    });
   }
 }
 
@@ -153,20 +157,6 @@ const markedRenderer = {
 };
 
 marked.use({ renderer: markedRenderer });
-
-class TocEntry {
-  constructor(pojo) {
-    this.type = pojo.type;
-    this.title = pojo.title;
-    if (pojo.type === 'link') {
-      this.link = pojo.link;
-    }
-  }
-
-  isHeadline() {
-    return this.type === 'headline';
-  }
-}
 
 (async () => {
   try {
