@@ -1,0 +1,25 @@
+[
+  {
+    "type": "headline",
+    "title": "Getting Started"
+  },
+  {
+    "type": "link",
+    "href": "index.md",
+    "title": "Introduction"
+  },
+  {
+    "type": "headline",
+    "title": "Examples"
+  },
+  {
+    "type": "link",
+    "href": "examples/implicit-grant",
+    "title": "Implicit Grant"
+  },
+  {
+    "type": "link",
+    "href": "examples/authorization-code",
+    "title": "Authorization Code"
+  }
+]

@@ -156,12 +156,30 @@ marked.use({ renderer: markedRenderer });
 
 (async () => {
   try {
-    const md = await readText('README.md', 'content');
-    const toc = extractMdToc(md);
-    console.log(toc);
-    const body = marked.parse(md);
-    const output = compiledDocTemplate({ body, toc });
-    await fsp.writeFile('output/index.html', output);
+    const tocJSON = await readText('toc.json', 'content/en');
+    const toc = JSON.parse(tocJSON);
+    // const toc = extractMdToc(md);
+    const parsedToc = toc.reduce((carry, item) => {
+      if (item.type === 'headline') {
+        return [
+          ...carry,
+          { ...item, children: [] },
+        ]
+      }
+      if (item.type === 'link') {
+        return carry.map((it, i, len) => {
+          if (i < len - 1) {
+            return it;
+          }
+          return { ...it, children: [...it.children, item] }
+        });
+      }
+      throw new Error(`unhandled type: ${item.type}`);
+    }, []);
+    console.log(parsedToc)
+    // const body = marked.parse(md);
+    // const output = compiledDocTemplate({ body, toc });
+    // await fsp.writeFile('output/index.html', output);
   } catch (err) {
     console.error(err);
   }
