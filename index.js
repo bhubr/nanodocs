@@ -1,7 +1,7 @@
 const fs = require('fs');
 const fsp = require('fs/promises');
 const mkdirp = require('mkdirp');
-const { join } = require('path');
+const { join, dirname } = require('path');
 const marked = require('marked');
 const Prism = require('prismjs');
 const Handlebars = require('handlebars');
@@ -154,32 +154,41 @@ const markedRenderer = {
 
 marked.use({ renderer: markedRenderer });
 
+class TocEntry {
+  constructor(pojo) {
+    this.type = pojo.type;
+    this.title = pojo.title;
+    if (pojo.type === 'link') {
+      this.link = pojo.link;
+    }
+  }
+
+  isHeadline() {
+    return this.type === 'headline';
+  }
+}
+
 (async () => {
   try {
     const tocJSON = await readText('toc.json', 'content/en');
-    const toc = JSON.parse(tocJSON);
-    // const toc = extractMdToc(md);
-    const parsedToc = toc.reduce((carry, item) => {
-      if (item.type === 'headline') {
-        return [
-          ...carry,
-          { ...item, children: [] },
-        ]
+    const toc = JSON.parse(tocJSON).map(o => ({
+      ...o, isHeadline: o.type === 'headline', isHome: o.href === 'index'
+    }));
+    const docs = toc.filter(({ isHeadline }) => !isHeadline);
+    for (let doc of docs) {
+      const md = await readText(`${doc.href}.md`, 'content/en');
+      const body = marked.parse(md);
+      const output = compiledDocTemplate({ body, toc });
+
+      const filename = doc.href === 'index' ? 'index.html' : join(doc.href, 'index.html');
+      const outFile = join(__dirname, 'output', filename);
+      const outDir = dirname(outFile);
+      console.log('out', outFile, outDir);
+      if (!fs.existsSync(outDir)) {
+        mkdirp.sync(outDir);
       }
-      if (item.type === 'link') {
-        return carry.map((it, i, len) => {
-          if (i < len - 1) {
-            return it;
-          }
-          return { ...it, children: [...it.children, item] }
-        });
-      }
-      throw new Error(`unhandled type: ${item.type}`);
-    }, []);
-    console.log(parsedToc)
-    // const body = marked.parse(md);
-    // const output = compiledDocTemplate({ body, toc });
-    // await fsp.writeFile('output/index.html', output);
+      await fsp.writeFile(outFile, output);
+    }
   } catch (err) {
     console.error(err);
   }

@@ -5,9 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="css/oceanic-next.css">
-  <link rel="stylesheet" href="css/switch.css">
-  <link rel="stylesheet" href="css/website.css">
+  <link rel="stylesheet" href="/css/oceanic-next.css">
+  <link rel="stylesheet" href="/css/switch.css">
+  <link rel="stylesheet" href="/css/website.css">
   <style>
     body {
       margin: 0;
@@ -136,12 +136,15 @@
       <div id="toc">
         {{#each toc}}
         <div class="toc">
-          <h{{depth}}>{{title}}</h{{depth}}>
-          <ul>
-            {{#each links}}
-            <li><a href="{{absPath}}">{{title}}</a></li>
-            {{/each}}
-          </ul>
+          {{#if isHeadline}}
+          <h3>{{title}}</h3>
+          {{else}}
+            {{#if isHome}}
+            <a href="/">{{title}}</a>
+            {{else}}
+            <a href="/{{href}}">{{title}}</a>
+            {{/if}}
+          {{/if}}
         </div>
         {{/each}}
     </aside>
@@ -153,6 +156,6 @@
     </main>
   </div>
 
-  <script src="js/switch.js"></script>
+  <script src="/js/switch.js"></script>
 </body>
 </html>
