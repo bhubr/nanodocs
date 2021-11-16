@@ -21,5 +21,28 @@
     "type": "link",
     "href": "examples/authorization-code",
     "title": "Authorization Code"
+  },
+  {
+    "type": "headline",
+    "title": "Usage"
+  },
+  {
+    "type": "link",
+    "href": "usage/props",
+    "title": "Props"
+  },
+  {
+    "type": "headline",
+    "title": "Project"
+  },
+  {
+    "type": "link",
+    "href": "project/contributors",
+    "title": "Contributors"
+  },
+  {
+    "type": "link",
+    "href": "project/changelog",
+    "title": "ChangeLog"
   }
 ]

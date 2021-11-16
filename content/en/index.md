@@ -7,4 +7,25 @@
 
 Simple React component for OAuth2 login.
 
-Supports **Authorization Code** and **Implicit Grant** flows.
+* Supports **Authorization Code** and **Implicit Grant** flows.
+* Works with React >= 16.0
+
+## Installation
+
+With `npm` :
+
+```sh
+npm install react-simple-oauth2-login
+```
+
+With `yarn` :
+
+```sh
+yarn install react-simple-oauth2-login
+```
+
+With `pnpm` :
+
+```sh
+pnpm install react-simple-oauth2-login
+```
