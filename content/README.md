@@ -1,55 +1,5 @@
-# React Simple OAuth2 Login
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
-> info:trophy: **Credits**: this component is based on [React GitHub Login](https://github.com/checkr/react-github-login) by [Checkr](https://checkr.com/).
-
-Simple React component for OAuth2 login.
-
-Supports **Authorization Code** and **Implicit Grant** flows.
-
 ## Examples
 
-### Implicit Grant
-
-> danger:warning: As stated in [oauth.net](https://oauth.net/2/)'s [OAuth 2.0 Implicit Grant](https://oauth.net/2/grant-types/implicit/), _the [OAuth 2.0 Security Best Current Practice](https://tools.ietf.org/html/draft-ietf-oauth-security-topics) document recommends against using the Implicit flow entirely_.
-
-Despite the above warning, the _Implicit Grant_ flow is still supported.
-
-The example below showcases the simplest way to use the module:
-
-* No backend application is needed
-* When called, the `onSuccess` callback receives an object which contains the access token.
-
-**Four mandatory props** are used to build the URL of the consent screen: `authorizationUrl`, `responseType`, `clientId`, and `redirectUri`. An optional `scope` prop can be passed.
-
-The client ID is given by the OAuth2 provider (usually along with a client secret) when you set up an OAuth2 app (where you're asked to fill in the Redirect URI).
-
-[app name=implicit-grant]
-
-
-```js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import OAuth2Login from 'react-simple-oauth2-login';
-
-const onSuccess = response => console.log(response);
-const onFailure = response => console.error(response);
-
-ReactDOM.render(
-  <OAuth2Login
-    authorizationUrl="https://accounts.spotify.com/authorize"
-    responseType="token"
-    clientId="9822046hvr4lnhi7g07grihpefahy5jb"
-    redirectUri="http://localhost:3000/oauth-callback"
-    onSuccess={onSuccess}
-    onFailure={onFailure}/>,
-  document.getElementById('root')
-);
-```
-
-### Authorization Code
 
 ### Example app
 
