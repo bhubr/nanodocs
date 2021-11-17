@@ -1,3 +1,4 @@
+
 function bindEventListeners(app) {
   const fileTabs = app.querySelectorAll('.file-tabs span');
   const contentPanels = app.querySelectorAll('.file-contents pre');

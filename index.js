@@ -60,8 +60,9 @@ const slugify = str => str.replace(/\./g, '-');
 
 const shortcodeRenderer = {
   app(pk, pv) {
-    const reactTemplate = readTextSync('templates/react-template.html');
-    const demoTemplate = readTextSync('templates/demo-template.html');
+    const reactTemplate = readTextSync('templates/react-template.hbs');
+    const demoTemplate = readTextSync('templates/demo-template.hbs');
+    const lightCss = readTextSync('assets/css/prism-onelight.css');
     const compiledDemoTemplate = Handlebars.compile(demoTemplate);
     const inputFilesDir = join(__dirname, 'example', pv);
     const demo = demos.find(d => d.path === pv);
@@ -92,7 +93,8 @@ const shortcodeRenderer = {
       demoPath: pv,
       examplesUrl,
       addressBarUrl: examplesUrl.replace(/https?:\/\//, ''),
-      files
+      files,
+      css: lightCss
     });
   }
 }
@@ -120,7 +122,7 @@ const markedRenderer = {
 marked.use({ renderer: markedRenderer });
 
 const build = async () => {
-  const docTemplate = readTextSync('templates/template.html');
+  const docTemplate = readTextSync('templates/template.hbs');
   const compiledDocTemplate = Handlebars.compile(docTemplate);
   
   const outputDir = join(__dirname, 'output');
