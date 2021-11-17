@@ -52,12 +52,6 @@ function highlight(code, lang) {
   }
 }
 
-const reactTemplate = readTextSync('templates/react-template.html');
-const demoTemplate = readTextSync('templates/demo-template.html');
-const compiledDemoTemplate = Handlebars.compile(demoTemplate);
-const docTemplate = readTextSync('templates/template.html');
-const compiledDocTemplate = Handlebars.compile(docTemplate);
-
 marked.setOptions({
   highlight,
 });
@@ -66,6 +60,9 @@ const slugify = str => str.replace(/\./g, '-');
 
 const shortcodeRenderer = {
   app(pk, pv) {
+    const reactTemplate = readTextSync('templates/react-template.html');
+    const demoTemplate = readTextSync('templates/demo-template.html');
+    const compiledDemoTemplate = Handlebars.compile(demoTemplate);
     const inputFilesDir = join(__dirname, 'example', pv);
     const demo = demos.find(d => d.path === pv);
     if (!demo) {
@@ -94,6 +91,7 @@ const shortcodeRenderer = {
     return compiledDemoTemplate({
       demoPath: pv,
       examplesUrl,
+      addressBarUrl: examplesUrl.replace(/https?:\/\//, ''),
       files
     });
   }
@@ -122,6 +120,9 @@ const markedRenderer = {
 marked.use({ renderer: markedRenderer });
 
 const build = async () => {
+  const docTemplate = readTextSync('templates/template.html');
+  const compiledDocTemplate = Handlebars.compile(docTemplate);
+  
   const outputDir = join(__dirname, 'output');
   const origAssetsDir = join(__dirname, 'assets');
   const assetsDir = join(outputDir, 'assets');

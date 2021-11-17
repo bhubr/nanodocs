@@ -1,19 +1,23 @@
 :root {
   --bg-color: #fff;
   --font-color: #333;
-  --nav-bg-color: #eee;
-  --nav-fg-color: #555;
+  --switcher-bg-color: #eee;
+  --switcher-fg-color: #555;
 }
 
 [data-theme="dark"] {
-  --bg-color: #1a1a25;
+  --bg-color: #282d35;
   --font-color: #b2bfc7;
-  --nav-bg-color: #2d333b;
   --aside-bg-color: #282d35;
-  --nav-fg-color: #bbb;
+  --switcher-bg-color: #39414c;
+  --switcher-fg-color: #bbb;
+  --code-bg-color: #1e2127;
 }
 
 body {
+  margin: 0;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  font-size: 18px;
   background-color: var(--bg-color);
   color: var(--font-color);
 }
@@ -43,10 +47,6 @@ nav {
 
 aside {
   width: 15em;
-}
-
-main {
-  margin-top: 2em;
 }
 
 .markdown-body {
@@ -83,8 +83,4 @@ main {
 [data-theme="dark"] #content blockquote code {
   background: var(--aside-bg-color);
   color: #af3a3a;
-}
-
-[data-theme="dark"] #content pre {
-  background: var(--aside-bg-color);
 }

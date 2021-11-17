@@ -5,96 +5,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="/assets/css/oceanic-next.css">
+  <link rel="stylesheet" href="/assets/css/prism-monokai.css">
   <link rel="stylesheet" href="/assets/css/switch.css">
   <link rel="stylesheet" href="/assets/css/website.css">
+  <link rel="stylesheet" href="/assets/css/app-embed.css">
   <style>
-    body {
-      margin: 0;
-      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
-      font-size: 18px;
-    }
-    /* pre {
-      background: #1b2b34;
-    } */
-    /* p code,
-    li code,
-    blockquote code {
-      background: #eee;
-      color: #722;
-      padding: 1px 3px;
-      border-radius: 2px;
-    } */
-    .flex {
+    .page-wrapper {
       display: flex;
       height: 100vh;
       overflow: hidden;
     }
-    aside {
-      color: #555;
-      border-right: 1px solid #eee;
-      height: 100vh;
-      padding: .5em;
-    }
-    #content {
+    
+    main {
       width: 100%;
       overflow-y: scroll;
     }
-    #content-inner {
-      margin: 1em 1em 2em 1em;
-    }
-    .container {
-      max-width: 840px;
-      margin: 0 auto;
-    }
-    iframe {
-      box-sizing: border-box;
-      border: 1px solid #f4f4f4;
-      width: 100%;
-      height: 400px;
-    }
-    .app-embed {
-      display: flex;
-    }
-    .app-embed > .left {
-      width: 60%;
-    }
-    .app-embed > .right {
-      width: 40%;
-    }
-    .file-tabs {
-      background: #fff;
-      border-bottom: 1px solid #f0f0f0;
-    }
-    .file-tabs span {
-      display: inline-block;
-      box-sizing: content-box;
-      border-left: 1px solid #f0f0f0;
-      border-top: 1px solid #f0f0f0;
-      border-right: 1px solid #f0f0f0;
-      background: #f4f4f4;
-      padding: 4px 5px 3px 5px;
-      margin: 0 3px;
-    }
-    .address-bar {
-      padding: 3px 5px;
-      background: #eee;
-    }
-    .address-bar code {
-      display: inline-block;
-      color: #555;
-      padding: 2px 8px;
-      border-radius: 1em;
-      background: #fff;
-      font-size: 13px;
-    }
-    .file-contents pre {
-      height: 400px;
-      overflow-y: scroll;
-    }
-    code[class="language-js"] {
-      font-size: 13px !important;
-    }
+    
     blockquote {
       padding: .5em .75em;
       border-radius: .25em;
@@ -104,7 +30,8 @@
     blockquote p {
       margin: 0;
     }
-    .blockquote-danger {
+
+    /* .blockquote-danger {
       color: #721c24;
       background-color: #f8d7da;
       border-color: #f5c6cb;
@@ -113,21 +40,25 @@
       color: #0c5460;
       background-color: #d1ecf1;
       border-color: #bee5eb;
-    }
+    } */
 
-    .markdown-body p,
-    .markdown-body li,
-    .markdown-body blockquote,
-    .markdown-body pre,
-    .markdown-body table,
-    .markdown-body h1,
-    .markdown-body h2,
-    .markdown-body h3  {
-      /* line-height:1.6; */
+
+    .content {
+      margin: 2em;
+      line-height: 1.4;
+    }
+    .content p,
+    .content li,
+    .content blockquote,
+    .content pre,
+    .content table,
+    .content h1,
+    .content h2,
+    .content h3  {
       max-width: 760px;
     }
 
-    .markdown-body pre {
+    .content pre {
       margin: 0;
       padding: .25em;
     }
@@ -141,17 +72,19 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
+      color: #555;
+      border-right: 1px solid #eee;
+      padding: .5em;
       box-sizing: border-box;
     }
 
-    #toc {
+    .toc {
       flex-grow: 1;
       overflow-y: scroll;
     }
 
     .theme-switch-wrapper {
       justify-content: center;
-      background: #f4f4f4;
       padding: .75em;
       margin: .5em 0;
       border-radius: .25em;
@@ -168,15 +101,23 @@
     a:hover {
       color: #6A123C;
     }
+
+    /* Colors */
+    .theme-switch-wrapper {
+      background: var(--switcher-bg-color);
+    }
+    .content pre {
+      background: var(--code-bg-color);
+    }
   </style>
 </head>
 <body>
 
-  <div class="flex">
+  <div class="page-wrapper">
     <aside>
-      <div id="toc">
+      <div class="toc">
         {{#each toc}}
-        <div class="toc">
+        <div>
           {{#if isHeadline}}
           <h3>{{title}}</h3>
           {{else}}
@@ -201,8 +142,8 @@
 
     </aside>
 
-    <main id="content">
-      <div id="content-inner" class="markdown-body">
+    <main>
+      <div class="content">
         {{{ body }}}
       </div>
     </main>
