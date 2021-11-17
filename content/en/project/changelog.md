@@ -1,4 +1,4 @@
-# ChangeLog
+# Changelog
 
 * v0.5.3 (published November 12th, 2021)
 
