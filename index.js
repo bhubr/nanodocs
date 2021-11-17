@@ -122,6 +122,13 @@ const markedRenderer = {
 marked.use({ renderer: markedRenderer });
 
 const build = async () => {
+  const outputDir = join(__dirname, 'output');
+  const origAssetsDir = join(__dirname, 'assets');
+  const assetsDir = join(outputDir, 'assets');
+
+  if (!fs.existsSync(assetsDir)) {
+    fs.symlinkSync(origAssetsDir, assetsDir);
+  }
   try {
     const tocJSON = await readText('toc.json', 'content/en');
     const toc = JSON.parse(tocJSON).map(o => ({
@@ -134,10 +141,10 @@ const build = async () => {
       const output = compiledDocTemplate({ body, toc });
 
       const filename = doc.href === 'index' ? 'index.html' : join(doc.href, 'index.html');
-      const outFile = join(__dirname, 'output', filename);
-      const outDir = dirname(outFile);
-      if (!fs.existsSync(outDir)) {
-        mkdirp.sync(outDir);
+      const outFile = join(outputDir, filename);
+      const filePath = dirname(outFile);
+      if (!fs.existsSync(filePath)) {
+        mkdirp.sync(filePath);
       }
       await fsp.writeFile(outFile, output);
     }
@@ -147,7 +154,7 @@ const build = async () => {
 };
 
 
-(() => {
+(async () => {
   // Initialize watcher.
   const watcher = chokidar.watch(['content', 'templates', 'assets'], {
     ignoreInitial: true,
@@ -164,4 +171,5 @@ const build = async () => {
     .on('add', onEvent('add'))
     .on('unlink', onEvent('unlink'));
 
+  await build();
 })();
