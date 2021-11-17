@@ -1,13 +1,13 @@
-<div class="react-app-embed" id="{{demoPath}}">
+<div class="app-embed" id="{{demoPath}}">
   <div class="left">
     <div class="file-tabs">
       {{#each files}}
-      <span data-file-id="{{demoPath}}-{{slug}}">{{name}}</span>
+      <span data-file="{{slug}}">{{name}}</span>
       {{/each}}
     </div>
     <div class="file-contents">
       {{#each files}}
-      <pre id="{{demoPath}}-{{slug}}"><code class="language-js">{{{code}}}</code></pre>
+      <pre id="{{../demoPath}}-{{slug}}" style="display: {{display}};"><code class="language-js">{{{code}}}</code></pre>
       {{/each}}
     </div>
   </div>

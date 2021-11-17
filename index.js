@@ -109,13 +109,14 @@ const shortcodeRenderer = {
     if (!demo) {
       throw new Error(`Could not find demo with path: ${pv}`);
     }
-    const files = demo.files.map(f => {
+    const files = demo.files.map((f, index) => {
       const ext = f.name.split('.').pop()
       const content = fs.readFileSync(join(inputFilesDir, f.name), 'utf-8');
       return {
         ...f,
         slug: slugify(f.name),
         code: Prism.highlight(content, Prism.languages[ext], ext),
+        display: index > 0 ? 'none' : 'block'
       }
     });
     const outputDir = join(__dirname, 'output', 'demos', pv);
