@@ -34,13 +34,14 @@
       color: #555;
       border-right: 1px solid #eee;
       height: 100vh;
-      padding: .5em 0 .5em .5em;
-      overflow-y: scroll;
+      padding: .5em;
     }
     #content {
       width: 100%;
       overflow-y: scroll;
-      margin: 1em;
+    }
+    #content-inner {
+      margin: 1em 1em 2em 1em;
     }
     .container {
       max-width: 840px;
@@ -50,7 +51,7 @@
       box-sizing: border-box;
       border: 1px solid #f4f4f4;
       width: 100%;
-      height: 200px;
+      height: 400px;
     }
     .app-embed {
       display: flex;
@@ -90,6 +91,8 @@
     .file-contents pre {
       margin: 0;
       padding: .25em;
+      height: 400px;
+      overflow-y: scroll;
     }
     code[class="language-js"] {
       font-size: 13px !important;
@@ -122,7 +125,7 @@
     .markdown-body h1,
     .markdown-body h2,
     .markdown-body h3  {
-      line-height:1.6;
+      /* line-height:1.6; */
       max-width: 760px;
     }
 
@@ -140,14 +143,27 @@
 
     #toc {
       flex-grow: 1;
+      overflow-y: scroll;
     }
 
     .theme-switch-wrapper {
-      width: 100%;
       justify-content: center;
+      background: #f4f4f4;
+      padding: .75em;
+      margin: .5em 0;
+      border-radius: .25em;
     }
     .theme-switch {
       margin: 0 1em;
+    }
+
+    a {
+      text-decoration: none;
+      color: #8E2F5C;
+    }
+
+    a:hover {
+      color: #6A123C;
     }
   </style>
 </head>
