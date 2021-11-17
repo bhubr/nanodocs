@@ -174,7 +174,6 @@ marked.use({ renderer: markedRenderer });
       const filename = doc.href === 'index' ? 'index.html' : join(doc.href, 'index.html');
       const outFile = join(__dirname, 'output', filename);
       const outDir = dirname(outFile);
-      console.log('out', outFile, outDir);
       if (!fs.existsSync(outDir)) {
         mkdirp.sync(outDir);
       }
