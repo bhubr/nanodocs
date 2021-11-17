@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 const fsp = require('fs/promises');
 const mkdirp = require('mkdirp');
@@ -5,7 +6,7 @@ const { join, dirname } = require('path');
 const marked = require('marked');
 const Prism = require('prismjs');
 const Handlebars = require('handlebars');
-require('dotenv').config();
+const chokidar = require('chokidar');
 require('prismjs/components/prism-jsx.js');
 const emojis = require('./emojis.json');
 const demos = require('./content/demos.json');
@@ -51,49 +52,10 @@ function highlight(code, lang) {
   }
 }
 
-/**
- * Extract subsections from md section
- *
- * @param {string} section Markdown section 
- */
-function extractMdSubsections(section) {
-  const split = section.split(/^### /gm);
-  split.shift();
-  return split.map(subsection => {
-    const lines = subsection.split('\n');
-    const title = lines.shift();
-    return {
-      title,
-      depth: 3,
-    };
-  });
-}
-
-/**
- * Split markdown (extract TOC)
- *
- * @param {string} md Markdown source
- */
-function extractMdToc(md) {
-  const split = md.split(/^## /gm);
-  const first = split.shift();
-  const [, title] = first.match(/^# (.*)/, first);
-  return split.map(section => {
-    const lines = section.split('\n');
-    const title = lines.shift();
-    console.log('section', lines.join('\n').trim())
-    return {
-      title,
-      subsections: extractMdSubsections(lines.join('\n').trim()),
-      depth: 2,
-    };
-  });
-}
-
-const reactTemplate = readTextSync('react-template.html');
-const demoTemplate = readTextSync('demo-template.html');
+const reactTemplate = readTextSync('templates/react-template.html');
+const demoTemplate = readTextSync('templates/demo-template.html');
 const compiledDemoTemplate = Handlebars.compile(demoTemplate);
-const docTemplate = readTextSync('template.html');
+const docTemplate = readTextSync('templates/template.html');
 const compiledDocTemplate = Handlebars.compile(docTemplate);
 
 marked.setOptions({
@@ -159,7 +121,7 @@ const markedRenderer = {
 
 marked.use({ renderer: markedRenderer });
 
-(async () => {
+const build = async () => {
   try {
     const tocJSON = await readText('toc.json', 'content/en');
     const toc = JSON.parse(tocJSON).map(o => ({
@@ -182,4 +144,24 @@ marked.use({ renderer: markedRenderer });
   } catch (err) {
     console.error(err);
   }
+};
+
+
+(() => {
+  // Initialize watcher.
+  const watcher = chokidar.watch(['content', 'templates', 'assets'], {
+    ignoreInitial: true,
+    persistent: true
+  });
+
+  const onEvent = evtType => async path => {
+    console.log(`event [${evtType}] ${path}`);
+    await build();
+  }
+
+  watcher
+    .on('change', onEvent('change'))
+    .on('add', onEvent('add'))
+    .on('unlink', onEvent('unlink'));
+
 })();
