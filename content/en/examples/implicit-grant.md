@@ -1,6 +1,6 @@
 # Implicit Grant
 
-> danger:warning: As stated in [oauth.net](https://oauth.net/2/)'s [OAuth 2.0 Implicit Grant](https://oauth.net/2/grant-types/implicit/), _the [OAuth 2.0 Security Best Current Practice](https://tools.ietf.org/html/draft-ietf-oauth-security-topics) document recommends against using the Implicit flow entirely_.
+> Warning:warning:warning: As stated in [oauth.net](https://oauth.net/2/)'s [OAuth 2.0 Implicit Grant](https://oauth.net/2/grant-types/implicit/), _the [OAuth 2.0 Security Best Current Practice](https://tools.ietf.org/html/draft-ietf-oauth-security-topics) document recommends against using the Implicit flow entirely_.
 
 Despite the above warning, the _Implicit Grant_ flow is still supported.
 

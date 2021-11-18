@@ -107,15 +107,15 @@ const markedRenderer = {
     return shortcodeRenderer[shortcode](pk, pv);
   },
   blockquote(text) {
-    const matchSpecial = text.match(/(info|danger)(:[a-z]+:)/);
+    const matchSpecial = text.match(/([\w\s]+):(info|warning)(:[a-z]+:)/);
     if (!matchSpecial) {
       return `<blockquote>${text}</blockquote>`;
     }
-    const mText = text.replace(/(info|danger)(:[a-z]+:)/, (args) => {
-      const [, emoji] = args.split(':');
-      return emojis[emoji];
+    const mText = text.replace(/([\w\s]+):(info|warning)(:[a-z]+:)/, (args) => {
+      const [,, emoji] = args.split(':');
+      return `<span class="blockquote-header">${emojis[emoji]} <span class="blockquote-header-text">${matchSpecial[1]}</span></span>`;
     });
-    return `<blockquote class="blockquote-${matchSpecial[1]}">${mText}</blockquote>`;
+    return `<blockquote class="blockquote-${matchSpecial[2]}">${mText}</blockquote>`;
   }
 };
 
