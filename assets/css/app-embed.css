@@ -13,11 +13,9 @@
 
 .file-tabs,
 .address-bar {
-  height: 28px;
+  height: 30px;
   display: flex;
   align-items: center;
-  /* background: #fff;
-  border-bottom: 1px solid #f0f0f0; */
 }
 
 .file-tabs span {
@@ -46,11 +44,6 @@
 [data-theme="dark"] .file-tabs span.active {
   color: #ccd5da;
   background: var(--bg-color);
-}
-
-.address-bar {
-  /* padding: 3px 5px; */
-  /* background: #eee; */
 }
 
 .address-bar code {

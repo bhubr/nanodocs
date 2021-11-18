@@ -181,6 +181,7 @@ a {
 .theme-switch-wrapper {
   background: var(--switcher-bg-color);
 }
+
 .content pre {
   background: var(--code-bg-color);
 }
