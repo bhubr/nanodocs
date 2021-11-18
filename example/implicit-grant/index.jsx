@@ -12,13 +12,15 @@ const ImplicitGrant = () => {
   return (
     token
     ? <p>Access token: {token}</p>
-    : <OAuth2Login
-      responseType="token"
-      authorizationUrl={authUrl}
-      redirectUri={redirectUri}
-      clientId={clientId}
-      onSuccess={onSuccess}
-    />
+    : (
+      <OAuth2Login
+        responseType="token"
+        authorizationUrl={authUrl}
+        redirectUri={redirectUri}
+        clientId={clientId}
+        onSuccess={onSuccess}
+      />
+    )
   );
 }
 

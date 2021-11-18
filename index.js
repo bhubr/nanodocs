@@ -76,7 +76,7 @@ const shortcodeRenderer = {
         ...f,
         slug: slugify(f.name),
         code: Prism.highlight(content, Prism.languages[ext], ext),
-        display: index > 0 ? 'none' : 'block'
+        className: index === 0 ? 'active' : ''
       }
     });
     const outputDir = join(__dirname, 'output', 'demos', pv);

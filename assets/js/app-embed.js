@@ -8,10 +8,18 @@ function bindEventListeners(app) {
       const slug = clickedTab.dataset.file;
       const activatedFileId = `${app.id}-${slug}`;
       for (const tab of fileTabs) {
-        tab.style.background =tab === clickedTab ?  '#eef' : '#f4f4f4';
+        if (tab === clickedTab) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
       }
       for (const panel of contentPanels) {
-        panel.style.display = panel.id === activatedFileId ? 'block' : 'none';
+        if (panel.id === activatedFileId) {
+          panel.classList.add('active');
+        } else {
+          panel.classList.remove('active');
+        }
       }
     });
   }

@@ -2,13 +2,13 @@
   <div class="left">
     <div class="file-tabs">
       {{#each files}}
-      <span data-file="{{slug}}">{{name}}</span>
+      <span data-file="{{slug}}" class="{{className}}">{{name}}</span>
       {{/each}}
     </div>
     <div class="file-contents">
       <style scoped>{{{css}}}</style>
       {{#each files}}
-      <pre id="{{../demoPath}}-{{slug}}" style="display: {{display}};"><code class="language-js">{{{code}}}</code></pre>
+      <pre id="{{../demoPath}}-{{slug}}" class="{{className}}"><code class="language-js">{{{code}}}</code></pre>
       {{/each}}
     </div>
   </div>

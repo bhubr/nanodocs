@@ -3,12 +3,12 @@
   --font-color: #333;
   --switcher-bg-color: #eee;
   --switcher-fg-color: #555;
+  --code-bg-color: #fafafa;
 }
 
 [data-theme="dark"] {
   --bg-color: #282d35;
   --font-color: #b2bfc7;
-  --aside-bg-color: #282d35;
   --switcher-bg-color: #39414c;
   --switcher-fg-color: #bbb;
   --code-bg-color: #1e2127;
@@ -22,47 +22,141 @@ body {
   color: var(--font-color);
 }
 
-header {
-  padding: 1em;
-  background: var(--nav-bg-color);
-  color: var(--nav-fg-color);
-}
-
-header a {
-  color: var(--nav-fg-color);
-  text-decoration: none;
-}
-
-header a:hover {
-  text-decoration: underline;
-}
-
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 660px;
-  margin: 0 auto;
-}
-
 aside {
+  display: flex;
+  flex-direction: column;
   width: 15em;
+  height: 100vh;
+  color: #555;
+  border-right: 1px solid #eee;
+  padding: .5em;
+  box-sizing: border-box;
+  line-height: 1.6;
 }
 
-.markdown-body {
+aside h3 {
+  margin-bottom: .4em;
+  font-size: 1.05em;
+}
+
+.toc {
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+
+.theme-switch-wrapper {
+  justify-content: center;
+  padding: .75em;
+  margin: .5em 0;
+  border-radius: .25em;
+}
+
+.theme-switch {
+  margin: 0 1em;
+}
+
+.content {
   color: var(--font-color);
 }
 
-[data-theme="dark"] .markdown-body h1,
-[data-theme="dark"] .markdown-body h2 {
+.page-wrapper {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+main {
+  width: 100%;
+  overflow-y: scroll;
+}
+
+/* .blockquote-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+.blockquote-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+} */
+
+.content {
+  margin: 2em;
+  line-height: 1.4;
+}
+
+.content p,
+.content li,
+.content blockquote,
+.content pre,
+.content table,
+.content h1,
+.content h2,
+.content h3  {
+  max-width: 760px;
+}
+
+.content blockquote {
+  padding: .5em .75em;
+  border-radius: .25em;
+  margin-left: 0;
+  box-sizing: border-box;
+}
+
+.content blockquote p {
+  margin: 0;
+}
+
+.content pre {
+  margin: 0;
+  padding: .5em;
+  border-radius: 4px;
+}
+
+.content pre code {
+  font-size: 16px;
+}
+
+table td, table th {
+  padding: 1em;
+  border-bottom: 1px solid #eee;
+}
+
+a {
+  text-decoration: none;
+}
+
+[data-theme="light"] a {
+  color: rgb(81, 159, 223);
+}
+
+[data-theme="light"] a:hover {
+  color: #2a89d7;
+}
+
+[data-theme="dark"] a {
+  color: #61afef;
+}
+
+[data-theme="light"] a:hover {
+  color: #78bbf1;
+}
+
+/* Colors */
+.theme-switch-wrapper {
+  background: var(--switcher-bg-color);
+}
+.content pre {
+  background: var(--code-bg-color);
+}
+
+[data-theme="dark"] .content h1,
+[data-theme="dark"] .content h2 {
   border-bottom: 1px solid #374e47;
 }
 
-[data-theme="dark"] .markdown-body a {
-  color: #6290cb;
-}
-
-[data-theme="dark"] .markdown-body blockquote {
+[data-theme="dark"] .content blockquote {
   border-left: 0.25em solid #555;
   color: #a1a1af;
 }
@@ -71,11 +165,6 @@ aside {
   background: var(--aside-bg-color);
   color: var(--font-color);
   border-right: 1px solid #444;
-}
-
-[data-theme="dark"] aside a {
-  background: var(--aside-bg-color);
-  color: #aaa;
 }
 
 [data-theme="dark"] #content p code, 

@@ -69,7 +69,10 @@ const AuthorizationCodeRedirToFront = () => {
         user && (
           <div>
             <p>login: <strong>{user.login}</strong></p>
-            <img src={user.avatar_url} alt={`${user.login}'s avatar`} />
+            <img
+              src={user.avatar_url}
+              alt={`${user.login}'s avatar`}
+            />
           </div>
         )
       }
