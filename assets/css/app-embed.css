@@ -71,6 +71,10 @@
   display: none;
 }
 
+.content .file-contents pre {
+  max-width: 100%;
+}
+
 .file-contents pre.active {
   display: block;
 }
